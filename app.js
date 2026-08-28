@@ -2,8 +2,13 @@
 const SUPABASE_URL = 'https://mskparkfueshghfebcmx.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_ALT1eUrp7ZdbD-YRAxi3KQ_19dZs4gZ';
 
-// Inicializar cliente de Supabase
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+// Inicializar cliente de Supabase (evitar conflicto de variables)
+let supabaseClient;
+try {
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+} catch (error) {
+    console.error('Error al inicializar Supabase:', error);
+}
 
 // Elementos del DOM
 const form = document.getElementById('studentForm');
@@ -65,7 +70,7 @@ async function guardarEstudiante(nombre, nota1, nota2, nota3, promedio, estado) 
     try {
         console.log('Intentando guardar estudiante:', { nombre, nota1, nota2, nota3, promedio, estado });
         
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('estudiantes')
             .insert([
                 {
@@ -95,7 +100,7 @@ async function guardarEstudiante(nombre, nota1, nota2, nota3, promedio, estado) 
 // Cargar historial
 async function cargarHistorial() {
     try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('estudiantes')
             .select('*')
             .order('fecha_creacion', { ascending: false });
@@ -155,7 +160,7 @@ async function limpiarHistorial() {
     if (!confirm('¿Estás seguro de que quieres eliminar todo el historial?')) return;
     
     try {
-        const { error } = await supabase
+        const { error } = await supabaseClient
             .from('estudiantes')
             .delete()
             .neq('id', 0); // Eliminar todos los registros
