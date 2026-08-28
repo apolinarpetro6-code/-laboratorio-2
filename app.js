@@ -2,12 +2,24 @@
 const SUPABASE_URL = 'https://mskparkfueshghfebcmx.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_ALT1eUrp7ZdbD-YRAxi3KQ_19dZs4gZ';
 
-// Inicializar cliente de Supabase (evitar conflicto de variables)
-let supabaseClient;
-try {
-    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-} catch (error) {
-    console.error('Error al inicializar Supabase:', error);
+// Inicializar cliente de Supabase de forma segura
+let supabaseClient = null;
+
+function initSupabase() {
+    if (supabaseClient) return supabaseClient;
+    
+    try {
+        if (window.supabase && window.supabase.createClient) {
+            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            console.log('Supabase inicializado correctamente');
+        } else {
+            console.error('Supabase no está disponible en window');
+        }
+    } catch (error) {
+        console.error('Error al inicializar Supabase:', error);
+    }
+    
+    return supabaseClient;
 }
 
 // Elementos del DOM
@@ -68,9 +80,14 @@ function mostrarResultado(nombre, promedio, estado) {
 // Guardar en Supabase
 async function guardarEstudiante(nombre, nota1, nota2, nota3, promedio, estado) {
     try {
+        const client = initSupabase();
+        if (!client) {
+            throw new Error('No se pudo inicializar Supabase');
+        }
+        
         console.log('Intentando guardar estudiante:', { nombre, nota1, nota2, nota3, promedio, estado });
         
-        const { data, error } = await supabaseClient
+        const { data, error } = await client
             .from('estudiantes')
             .insert([
                 {
@@ -100,7 +117,12 @@ async function guardarEstudiante(nombre, nota1, nota2, nota3, promedio, estado) 
 // Cargar historial
 async function cargarHistorial() {
     try {
-        const { data, error } = await supabaseClient
+        const client = initSupabase();
+        if (!client) {
+            throw new Error('No se pudo inicializar Supabase');
+        }
+        
+        const { data, error } = await client
             .from('estudiantes')
             .select('*')
             .order('fecha_creacion', { ascending: false });
@@ -160,7 +182,12 @@ async function limpiarHistorial() {
     if (!confirm('¿Estás seguro de que quieres eliminar todo el historial?')) return;
     
     try {
-        const { error } = await supabaseClient
+        const client = initSupabase();
+        if (!client) {
+            throw new Error('No se pudo inicializar Supabase');
+        }
+        
+        const { error } = await client
             .from('estudiantes')
             .delete()
             .neq('id', 0); // Eliminar todos los registros
