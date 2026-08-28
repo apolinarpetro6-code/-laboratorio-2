@@ -1,19 +1,19 @@
-/* Variables CSS para tema moderno */
+/* Variables CSS para tema institucional (escala de grises) */
 :root {
-    --primary: #6366f1;
-    --primary-dark: #4f46e5;
-    --secondary: #ec4899;
-    --success: #10b981;
-    --danger: #ef4444;
-    --warning: #f59e0b;
-    --background: #f8fafc;
+    --primary: #475569;
+    --primary-dark: #334155;
+    --secondary: #64748b;
+    --success: #3b82f6;
+    --danger: #64748b;
+    --warning: #94a3b8;
+    --background: #f1f5f9;
     --surface: #ffffff;
     --text-primary: #1e293b;
     --text-secondary: #64748b;
-    --border: #e2e8f0;
+    --border: #cbd5e1;
     --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    --radius: 12px;
+    --radius: 8px;
     --transition: all 0.3s ease;
 }
 
@@ -26,7 +26,7 @@
 
 body {
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #64748b 0%, #475569 100%);
     min-height: 100vh;
     padding: 20px;
     color: var(--text-primary);
@@ -43,7 +43,7 @@ body {
 
 /* Header */
 .header {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     color: white;
     padding: 2rem;
     text-align: center;
@@ -143,6 +143,7 @@ body {
 .btn-primary {
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     color: white;
+    border: 1px solid var(--primary-dark);
 }
 
 .btn-primary:hover {
@@ -237,12 +238,12 @@ body {
 }
 
 .result-item .value.status.aprobado {
-    background: #d1fae5;
+    background: #dbeafe;
     color: var(--success);
 }
 
 .result-item .value.status.reprobado {
-    background: #fee2e2;
+    background: #f1f5f9;
     color: var(--danger);
 }
 
@@ -260,8 +261,7 @@ body {
     background: linear-gradient(90deg, #e2e8f0 0%, #cbd5e1 100%);
 }
 
-.progress-bar::before {
-    content: '';
+.progress-fill {
     position: absolute;
     top: 0;
     left: 0;
@@ -272,12 +272,12 @@ body {
     border-radius: 15px;
 }
 
-.progress-bar.aprobado::before {
-    background: linear-gradient(90deg, var(--success) 0%, #34d399 100%);
+.progress-bar.aprobado .progress-fill {
+    background: linear-gradient(90deg, var(--success) 0%, #60a5fa 100%);
 }
 
-.progress-bar.reprobado::before {
-    background: linear-gradient(90deg, var(--danger) 0%, #f87171 100%);
+.progress-bar.reprobado .progress-fill {
+    background: linear-gradient(90deg, var(--danger) 0%, #94a3b8 100%);
 }
 
 .progress-text {
@@ -337,7 +337,7 @@ body {
 }
 
 .history-item.reprobado {
-    border-left-color: var(--danger);
+    border-left-color: var(--secondary);
 }
 
 .history-item-header {

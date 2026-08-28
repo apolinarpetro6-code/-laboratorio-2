@@ -16,6 +16,7 @@ const resNombre = document.getElementById('resNombre');
 const resPromedio = document.getElementById('resPromedio');
 const resEstado = document.getElementById('resEstado');
 const progressBar = document.getElementById('progressBar');
+const progressFill = document.getElementById('progressFill');
 const progressText = document.getElementById('progressText');
 const historialDiv = document.getElementById('historial');
 
@@ -51,9 +52,8 @@ function mostrarResultado(nombre, promedio, estado) {
     
     // Configurar barra de progreso
     const porcentaje = (promedio / 5) * 100;
-    progressBar.style.setProperty('--width', porcentaje + '%');
     progressBar.className = 'progress-bar ' + (estado === 'APROBADO' ? 'aprobado' : 'reprobado');
-    progressBar.querySelector('::before').style.width = porcentaje + '%';
+    progressFill.style.width = porcentaje + '%';
     progressText.textContent = porcentaje.toFixed(0) + '%';
     
     // Mostrar sección de resultado
@@ -63,6 +63,8 @@ function mostrarResultado(nombre, promedio, estado) {
 // Guardar en Supabase
 async function guardarEstudiante(nombre, nota1, nota2, nota3, promedio, estado) {
     try {
+        console.log('Intentando guardar estudiante:', { nombre, nota1, nota2, nota3, promedio, estado });
+        
         const { data, error } = await supabase
             .from('estudiantes')
             .insert([
@@ -76,12 +78,15 @@ async function guardarEstudiante(nombre, nota1, nota2, nota3, promedio, estado) 
                 }
             ]);
         
-        if (error) throw error;
+        if (error) {
+            console.error('Error de Supabase:', error);
+            throw error;
+        }
         
-        console.log('Estudiante guardado:', data);
+        console.log('Estudiante guardado exitosamente:', data);
         return data;
     } catch (error) {
-        console.error('Error al guardar:', error);
+        console.error('Error completo al guardar:', error);
         alert('Error al guardar en la base de datos: ' + error.message);
         return null;
     }
