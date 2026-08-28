@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Notas - Laboratorio 2</title>
+    <link rel="stylesheet" href="estilos_modernos.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🎓 Sistema de Notas</h1>
+            <p class="subtitle">Laboratorio 2 - Gestión de Estudiantes</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Formulario -->
+            <div class="form-section">
+                <h2>📝 Registrar Estudiante</h2>
+                <form id="studentForm">
+                    <div class="form-group">
+                        <label for="nombre">Nombre del Estudiante</label>
+                        <input type="text" id="nombre" required placeholder="Ej: Juan Pérez">
+                    </div>
+
+                    <div class="grades-grid">
+                        <div class="form-group">
+                            <label for="nota1">Nota 1 (0-5)</label>
+                            <input type="number" id="nota1" min="0" max="5" step="0.1" required placeholder="0.0">
+                        </div>
+                        <div class="form-group">
+                            <label for="nota2">Nota 2 (0-5)</label>
+                            <input type="number" id="nota2" min="0" max="5" step="0.1" required placeholder="0.0">
+                        </div>
+                        <div class="form-group">
+                            <label for="nota3">Nota 3 (0-5)</label>
+                            <input type="number" id="nota3" min="0" max="5" step="0.1" required placeholder="0.0">
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="btn-icon">📊</span>
+                            Calcular y Guardar
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="limpiarFormulario()">
+                            <span class="btn-icon">🗑️</span>
+                            Limpiar
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Resultado en tiempo real -->
+                <div id="resultado" class="result-section hidden">
+                    <h3>📈 Resultado</h3>
+                    <div class="result-card">
+                        <div class="result-item">
+                            <span class="label">Estudiante:</span>
+                            <span class="value" id="resNombre">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Promedio:</span>
+                            <span class="value highlight" id="resPromedio">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Estado:</span>
+                            <span class="value status" id="resEstado">-</span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progressBar">
+                                <span class="progress-text" id="progressText">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Historial -->
+            <div class="history-section">
+                <h2>📚 Historial de Estudiantes</h2>
+                <div class="history-actions">
+                    <button class="btn btn-small" onclick="cargarHistorial()">
+                        <span class="btn-icon">🔄</span>
+                        Actualizar
+                    </button>
+                    <button class="btn btn-small btn-danger" onclick="limpiarHistorial()">
+                        <span class="btn-icon">🗑️</span>
+                        Limpiar Todo
+                    </button>
+                </div>
+                <div id="historial" class="history-list">
+                    <p class="empty-message">Cargando historial...</p>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>💖 Desarrollado con amor - Laboratorio 2</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

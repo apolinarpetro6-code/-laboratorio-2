@@ -1,2 +1,9 @@
 # Ignorar archivo HTML generado
 reporte.html
+
+# Ignorar archivo de configuración de Supabase (credenciales)
+setup_supabase.py
+
+# Ignorar archivos temporales
+*.pyc
+__pycache__/
